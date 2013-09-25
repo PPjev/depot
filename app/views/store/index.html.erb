@@ -1,7 +1,7 @@
 <% if notice %>
 	<p id="notice"><%= notice %></p>
 <% end %>
-
+<h1><%= @show_message %></h1>
 <h1>Your Pragmatic Catalog</h1>
 <% cache ['store', Product.latest] do %>
 	<% @products.each do |product| %>
@@ -12,6 +12,7 @@
 				<%= sanitize(product.description) %>
 				<div class="price_line">
 					<span class="price"><%= number_to_currency product.price, format: '%n %u', unit: 'LTL' %></span>
+					<%= button_to 'Add to Cart', line_items_path(product_id: product) %>
 				</div>
 			</div>
 		<% end %>
