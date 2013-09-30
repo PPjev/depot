@@ -67,6 +67,18 @@ class ProductsController < ApplicationController
     if stale?(@lastest_order)
       respond_to do |wants|
         wants.atom
+        wants.html
+        wants.xml { render xml: @product.to_xml(only: :title,
+          include: {
+            orders: {
+              only: :name    
+              }}) 
+          } 
+        wants.json { render json: @product.as_json(only: :title,
+          include: {
+            orders: {
+              only: :name
+            } } ) }
       end
     end
   end

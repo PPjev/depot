@@ -16,6 +16,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
+    @checkout = true
     if @cart.line_items.empty?
       redirect_to store_url, notice: "Your cart is empty"
       return
@@ -79,6 +80,6 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :pay_type)
+      params.require(:order).permit(:name, :address, :email, :pay_type_id)
     end
 end
