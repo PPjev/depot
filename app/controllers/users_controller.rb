@@ -33,7 +33,7 @@ class UsersController < ApplicationController
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully created." }
         format.json { render action: 'show', status: :created, location: @user }
       else
-        format.html { render action: 'new' }
+        format.html { render action: 'new', notice: @user.errors }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -42,8 +42,10 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    current_password = params[:user].delete(:current_password)
+    @user.errors.add(:current_password, 'for user is incorrect') unless @user.authenticate(current_password)
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.errors.empty? and @user.update(user_params)
         format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }
         format.json { head :no_content }
       else

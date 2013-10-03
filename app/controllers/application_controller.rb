@@ -9,8 +9,10 @@ class ApplicationController < ActionController::Base
   protected
 
   	def authorize
-  		unless User.find_by(id: session[:user_id])
-  			redirect_to login_url, notice: 'Please log in'  			
+  		unless User.find_by(id: session[:user_id]) || (User.count.zero? && (params[:action] == 'new' || params[:action] == 'create'))
+        session[:original_url] = request.original_url
+  			redirect_to login_path, notice: 'Please login'  			
   		end
   	end
+
 end
