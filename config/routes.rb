@@ -12,7 +12,7 @@ Depot::Application.routes.draw do
     resources :line_items do
       post 'decrement', on: :member
     end  
-    root 'store#index', as: 'store'
+    root 'store#index', as: 'store', via: :all
   end
   resources :users
   resources :pay_types
