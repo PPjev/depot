@@ -6,16 +6,16 @@ Depot::Application.routes.draw do
     delete  'logout' => :destroy
   end
 
-  resources :users
-
-  resources :pay_types
-
-  resources :orders
-
-  resources :line_items do
-    post 'decrement', on: :member
+  scope '(:locale)' do
+    resources :orders
+    resources :carts
+    resources :line_items do
+      post 'decrement', on: :member
+    end  
+    root 'store#index', as: 'store'
   end
-  resources :carts
+  resources :users
+  resources :pay_types
 
   get "store/index"
   resources :products do
@@ -26,7 +26,6 @@ Depot::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'store#index', as: 'store'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
